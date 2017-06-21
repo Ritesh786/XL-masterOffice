@@ -212,20 +212,24 @@ public class MainActivity extends AbsRuntimePermission {
 
                 token = TokenSave.getInstance(MainActivity.this).getDeviceToken();
                 Log.d("tok00",token);
+
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                if(!prefs.getBoolean("firstTime", false)) {
+
+                    SendtokenofNews();
+
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean("firstTime", true);
+                    editor.commit();
+                }
+
             }
         };
 
         registerReceiver(broadcastReceiver,new IntentFilter(MyFirebaseInstanceIDService.TOKEN_BROADCAST));
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        if(!prefs.getBoolean("firstTime", false)) {
 
-            SendtokenofNews();
 
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("firstTime", true);
-            editor.commit();
-        }
 
         }
 
@@ -246,7 +250,7 @@ public class MainActivity extends AbsRuntimePermission {
                     @Override
                     public void onResponse(String response) {
                         Log.d("jaba",response.toString());
-                      //  Log.d("tok001",token);
+                        Log.d("tok001","token in send"+token);
                         try {
                             JSONObject jsonresponse = new JSONObject(response);
                             boolean success = jsonresponse.getBoolean("success");
