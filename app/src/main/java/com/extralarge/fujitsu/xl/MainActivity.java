@@ -1,7 +1,10 @@
 package com.extralarge.fujitsu.xl;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -23,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.extralarge.fujitsu.xl.FCM.MyFirebaseInstanceIDService;
 import com.extralarge.fujitsu.xl.FCM.TokenSave;
 import com.extralarge.fujitsu.xl.NewsSection.MainNews;
 import com.extralarge.fujitsu.xl.NewsSection.State;
@@ -48,6 +52,8 @@ public class MainActivity extends AbsRuntimePermission {
     int i = 0;
     static boolean f = true;
 
+    private BroadcastReceiver broadcastReceiver;
+    String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,15 +206,26 @@ public class MainActivity extends AbsRuntimePermission {
 //
 //        Log.d("ival001", String.valueOf(i));
 
-//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-//        if(!prefs.getBoolean("firstTime", false)) {
-//
-//            SendtokenofNews();
-//
-//            SharedPreferences.Editor editor = prefs.edit();
-//            editor.putBoolean("firstTime", true);
-//            editor.commit();
-//        }
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                token = TokenSave.getInstance(MainActivity.this).getDeviceToken();
+                Log.d("tok00",token);
+            }
+        };
+
+        registerReceiver(broadcastReceiver,new IntentFilter(MyFirebaseInstanceIDService.TOKEN_BROADCAST));
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        if(!prefs.getBoolean("firstTime", false)) {
+
+            SendtokenofNews();
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("firstTime", true);
+            editor.commit();
+        }
 
         }
 
@@ -218,49 +235,47 @@ public class MainActivity extends AbsRuntimePermission {
 
     }
 
-//    public void SendtokenofNews() {
-//
-//
-//        final String token = TokenSave.getInstance(MainActivity.this).getDeviceToken();
-//        final String LOGIN_URL = "http://api.minews.in/slimapp/public/api/readers/";
-//
-//        String newurl = LOGIN_URL+token;
-//
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, newurl,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        Log.d("jaba",response.toString());
-//                        Log.d("tok00",token);
-//                        try {
-//                            JSONObject jsonresponse = new JSONObject(response);
-//                            boolean success = jsonresponse.getBoolean("success");
-//
-//                            if(success){
-//
-//                            }
-//
-//                            Log.d("ival00", String.valueOf(i));
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                        Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_LONG).show();
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                     //   Log.d("jabadi",motptext);
-//                        Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-//
-//                    }
-//                }) {
-//
-//        };RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-//        requestQueue.add(stringRequest);
-//    }
+    public void SendtokenofNews() {
+
+        final String LOGIN_URL = "http://api.minews.in/slimapp/public/api/readers/";
+
+        String newurl = LOGIN_URL+token;
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, newurl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("jaba",response.toString());
+                      //  Log.d("tok001",token);
+                        try {
+                            JSONObject jsonresponse = new JSONObject(response);
+                            boolean success = jsonresponse.getBoolean("success");
+
+                            if(success){
+
+                            }
+
+                            Log.d("ival00", String.valueOf(i));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                     //   Log.d("jabadi",motptext);
+                        Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+
+                    }
+                }) {
+
+        };RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+        requestQueue.add(stringRequest);
+    }
 
 
     }
