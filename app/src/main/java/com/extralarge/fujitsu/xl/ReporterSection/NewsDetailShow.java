@@ -112,7 +112,7 @@ public class NewsDetailShow extends AppCompatActivity implements View.OnClickLis
         intent.setType("image/*");
 
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "For Latest News Updates \n Download \n Excel Samachar App \n https://play.google.com/store/apps/details?id=midigi.testaws&hl=en");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         try {
             startActivity(Intent.createChooser(intent, "Share Screenshot"));

@@ -49,11 +49,10 @@ public class MainActivity extends AbsRuntimePermission {
 
     UserSessionManager session;
     private static final int REQUEST_PERMISSION = 10;
-    int i = 0;
-    static boolean f = true;
-
     private BroadcastReceiver broadcastReceiver;
+
     String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -198,14 +197,6 @@ public class MainActivity extends AbsRuntimePermission {
                                 Manifest.permission.READ_EXTERNAL_STORAGE},
                         R.string.msg, REQUEST_PERMISSION);
 
-//        if(i == 0){
-//
-//            Log.d("if00","abcd");
-//            SendtokenofNews();
-//        }
-//
-//        Log.d("ival001", String.valueOf(i));
-
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -259,7 +250,7 @@ public class MainActivity extends AbsRuntimePermission {
 
                             }
 
-                            Log.d("ival00", String.valueOf(i));
+                        //    Log.d("ival00", String.valueOf(i));
 
                         } catch (JSONException e) {
                             e.printStackTrace();
