@@ -14,15 +14,21 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -55,12 +61,13 @@ import static com.extralarge.fujitsu.xl.R.id.verifyotp_btn;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DashboardFragment extends Fragment implements View.OnClickListener {
+public class DashboardFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
      EditText  mnewsheadline,mnewscontent,mnewsimagecaption;
      Spinner mnewstype;
      Button mchooseimagebtn,muploadnewsbtn;
     ImageView mnewsimage;
+    TextView mtverror;
     int id;
     int strtext;
     private int PICK_IMAGE_REQUEST = 1;
@@ -98,17 +105,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         mnewstype = (Spinner) view.findViewById(R.id.news_type);
         mnewsimage = (ImageView) view.findViewById(R.id.news_Image);
 
+        mtverror = (TextView) view.findViewById(R.id.tvInvisibleError);
+
         mchooseimagebtn = (Button) view.findViewById(R.id.chooseimage_btn);
         muploadnewsbtn = (Button) view.findViewById(R.id.uploadnews_btn);
 
         mchooseimagebtn.setOnClickListener(this);
         muploadnewsbtn.setOnClickListener(this);
 
-//        ReporterDashboard activity = (ReporterDashboard) getActivity();
-//         id = activity.getMyData();
-//        String iddd = String.valueOf(id);
-//        Log.d("main123", iddd);
-
+        mnewstype.setOnItemSelectedListener(this);
         return view;
     }
 
@@ -361,10 +366,65 @@ try {
             showFileChooser();
         }
         if(v == muploadnewsbtn){
-            uploadImage();
+
+    if (isvalidinput()) {
+        uploadImage();
+    }
+
         }
+
+    }
+    private boolean isvalidinput(){
+
+         boolean isValid = true;
+         String headline = mnewsheadline.getText().toString().trim();
+         String content = mnewscontent.getText().toString().trim();
+         String type = mnewstype.getSelectedItem().toString();
+         String caption = mnewsimagecaption.getText().toString().trim();
+
+
+     if(headline.length() <=0){
+         mnewsheadline.requestFocus();
+         mnewsheadline.setError("This Field Is Mandatory");
+         isValid = false;
+     }
+     else if(content.length() <=0){
+         mnewscontent.requestFocus();
+         mnewscontent.setError("This Field Is Mandatory");
+         isValid = false;
+     }
+
+//     else if(TextUtils.isEmpty(type)){
+//
+//         mnewstype.requestFocus();
+//         ((TextView)mnewstype.getSelectedView()).setError("");
+//         isValid = false;
+//     }
+     else if(caption.length() <=0){
+
+         mnewsimagecaption.requestFocus();
+         mnewsimagecaption.setError("This Field Is Mandatory");
+         isValid = false;
+     }
+    return isValid;
 
     }
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        if(position < 0){
+            ((TextView) mnewstype.getSelectedView()).setError("Field Required");
+        }
+        else{
+
+            mtverror.setText("");
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }
