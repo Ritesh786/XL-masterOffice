@@ -48,7 +48,6 @@ public class MainActivity extends AbsRuntimePermission {
     String name;
 
     UserSessionManager session;
-    private static final int REQUEST_PERMISSION = 10;
     private BroadcastReceiver broadcastReceiver;
 
     String token;
@@ -110,44 +109,43 @@ public class MainActivity extends AbsRuntimePermission {
                     toolbar.setTitleTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
                 }
 
-                if (menuItem.getItemId() == R.id.nav_item_national) {
-                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new MainNews()).commit();
-                    toolbar.setTitle("राष्ट्रीय");
-                    toolbar.setTitleTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
+//                if (menuItem.getItemId() == R.id.nav_item_national) {
+//                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+//                    xfragmentTransaction.replace(R.id.containerView, new MainNews()).commit();
+//                    toolbar.setTitle("राष्ट्रीय");
+//                    toolbar.setTitleTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
+//
+//                }
 
-                }
+//                if (menuItem.getItemId() == R.id.nav_item_International) {
+//                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+//                    xfragmentTransaction.replace(R.id.containerView, new State()).commit();
+//                    toolbar.setTitle("International");
+//                    toolbar.setTitleTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
+//
+//                }
 
-                if (menuItem.getItemId() == R.id.nav_item_International) {
-                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new State()).commit();
-                    toolbar.setTitle("International");
-                    toolbar.setTitleTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
+//                if (menuItem.getItemId() == R.id.nav_item_states) {
+//                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+//                    xfragmentTransaction.replace(R.id.containerView, new State()).commit();
+//                    toolbar.setTitle("States");
+//                    toolbar.setTitleTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
+//
+//                }
+//                if (menuItem.getItemId() == R.id.nav_item_business) {
+//                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+//                    xfragmentTransaction.replace(R.id.containerView, new State()).commit();
+//                    toolbar.setTitle("Business");
+//                    toolbar.setTitleTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
+//
+//                }
 
-                }
-
-                if (menuItem.getItemId() == R.id.nav_item_states) {
-                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new State()).commit();
-                    toolbar.setTitle("States");
-                    toolbar.setTitleTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
-
-                }
-                if (menuItem.getItemId() == R.id.nav_item_business) {
-                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new State()).commit();
-                    toolbar.setTitle("Business");
-                    toolbar.setTitleTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
-
-                }
-
-                if (menuItem.getItemId() == R.id.nav_item_city) {
-                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new State()).commit();
-                    toolbar.setTitle("Cities");
-                    toolbar.setTitleTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
-
-                }
+//                if (menuItem.getItemId() == R.id.nav_item_city) {
+//                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+//                    xfragmentTransaction.replace(R.id.containerView, new State()).commit();
+//                    toolbar.setTitle("Cities");
+//                    toolbar.setTitleTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
+//                }
 
 
                 if (menuItem.getItemId() == R.id.nav_item_becomereporter) {
@@ -190,12 +188,6 @@ public class MainActivity extends AbsRuntimePermission {
 
         mDrawerToggle.syncState();
 
-        requestAppPermissions(new String[]{
-
-                                Manifest.permission.READ_SMS,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE},
-                        R.string.msg, REQUEST_PERMISSION);
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override

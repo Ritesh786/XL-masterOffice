@@ -11,7 +11,8 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginRight="8dp" />
+        android:layout_marginRight="8dp"
+       />
 
     <!-- Movie Title -->
     <TextView
@@ -53,5 +54,12 @@
         android:layout_alignParentRight="true"
         android:textColor="@color/year"
         android:textSize="@dimen/year" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentBottom="true"
+        android:background="#111111" />
 
 </RelativeLayout>
